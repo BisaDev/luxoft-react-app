@@ -13,29 +13,49 @@ export class RegisterForm extends React.Component {
       preferences: [],
       age: 20,
       isMale: true,
-      isSuccess: false
+      isSuccess: false,
+      mailClassName: "",
+      passwordClassName: ""
     };
   }
 
   onChangeEmail = e => {
     const { value: email } = e.target;
-    this.setState({
-      email
-    });
+    this.setState(
+      {
+        email
+      },
+      () => {
+        const newClass = this.isValidEmail() ? "is-valid" : "is-invalid";
+        this.setState({ mailClassName: newClass });
+      }
+    );
   };
 
   onChangePassword = e => {
     const { value: password } = e.target;
-    this.setState({
-      password
-    });
+    this.setState(
+      {
+        password
+      },
+      () => {
+        const newClass = this.isValidPassword() ? "is-valid" : "is-invalid";
+        this.setState({ passwordClassName: newClass });
+      }
+    );
   };
 
   onChangeConfirmPassword = e => {
     const { value: passwordConfirm } = e.target;
-    this.setState({
-      passwordConfirm
-    });
+    this.setState(
+      {
+        passwordConfirm
+      },
+      () => {
+        const newClass = this.isValidPassword() ? "is-valid" : "is-invalid";
+        this.setState({ passwordClassName: newClass });
+      }
+    );
   };
 
   onChangePreference = (e, preference) => {
@@ -140,22 +160,22 @@ export class RegisterForm extends React.Component {
             <label>Email address</label>
             <input
               type="email"
-              className={`form-control ${
-                this.isValidEmail() ? "is-valid" : "is-invalid"
-              }`}
+              autoComplete="on"
+              className={`form-control ${this.state.mailClassName}`}
               placeholder="Enter email"
               value={this.state.email}
               onChange={this.onChangeEmail}
             />
-            <div class="invalid-feedback">Please provide a valid email.</div>
+            <div className="invalid-feedback">
+              Please provide a valid email.
+            </div>
           </div>
           <div className="form-group">
             <label>Password</label>
             <input
               type="password"
-              className={`form-control ${
-                this.isValidPassword() ? "is-valid" : "is-invalid"
-              }`}
+              autoComplete="on"
+              className={`form-control ${this.state.passwordClassName}`}
               placeholder="Password"
               value={this.password}
               onChange={this.onChangePassword}
@@ -165,9 +185,8 @@ export class RegisterForm extends React.Component {
             <label>Confirm password</label>
             <input
               type="password"
-              className={`form-control ${
-                this.isValidPassword() ? "is-valid" : ""
-              }`}
+              autoComplete="on"
+              className={`form-control ${this.state.passwordClassName}`}
               placeholder="Confirm password"
               value={this.passwordConfirm}
               onChange={this.onChangeConfirmPassword}
